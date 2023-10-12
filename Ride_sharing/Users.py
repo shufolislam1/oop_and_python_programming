@@ -38,3 +38,16 @@ class Customer(User):
             ride_request = None
             # TODO: set customers_current_ride via driver. (mane customer request pathanor por driver jabe naki jabena ta set kora)
             self.customers_current_ride = None
+
+class Driver(User):
+    def __init__(self, user_name, user_email, user_nid, driver_cur_location) -> None:
+        self.driver_cur_location = driver_cur_location
+        super().__init__(user_name, user_email, user_nid)
+
+    def display_profile(self):
+        print(f'Driver with name {self.name} and email {self.email}')
+
+    # ekta ride request asbe driver er kache parameter hisebe
+    def accept_ride_request(self, ride_request):
+        # ride request ta driver accept korlo dhore nilam
+        ride_request.set_driver(self)
