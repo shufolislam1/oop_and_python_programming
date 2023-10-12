@@ -16,6 +16,9 @@ class Ride_sharing_service:
     def add_driver(self, driver):
         self.drivers.append(driver)
 
+    def __repr__(self) -> str:
+        # print(f'Company name {self.company_name} with customers {len(self.customers)} and drivers {len(self.drivers)}')
+        return f'Company name {self.company_name} with customers {len(self.customers)} and drivers {len(self.drivers)}'
 # User class is inheriting from ABC, making it an abstract base class. This means that User is intended to be a base class for other classes, and it cannot be instantiated directly.
 # Instead, subclasses of User should be created, and those subclasses must implement the abstract methods defined in User
 
@@ -54,15 +57,18 @@ class Customer(User):
     def update_location(self, current_location):
         self.current_location = current_location
 
-    def request_ride(self, customer_destination):
+    def request_ride(self, ride_sharing, customer_destination):
         # customer already arekta driver er sathe onno kono ride e ache kina/ onno kothaw jacche kina check kora
         if not self.customers_current_ride:
             #TODO: set ride request properly
             ride_request = Ride_Request(self, customer_destination)
 
             # TODO: set customers_current_ride via driver. (mane customer request pathanor por driver jabe naki jabena ta set kora)
-            ride_matcher = Ride_Matching()
+            ride_matcher = Ride_Matching(ride_sharing.drivers)
             self.customers_current_ride = ride_matcher.find_driver(ride_request)
+
+    def show_current_ride(self):
+        print(self.customers_current_ride)
 
 class Driver(User):
     def __init__(self, user_name, user_email, user_nid, driver_cur_location) -> None:
@@ -75,8 +81,8 @@ class Driver(User):
 
     # ekta ride request asbe driver er kache parameter hisebe
     def accept_ride_request(self, ride_request):
-        # ride request ta driver accept korlo dhore nilam
-        ride_request.set_driver(self)
+        ride_request.set_driver(self) 
+        # ************ this set_driver has relation with below set_driver**********
 
 
 class Ride_details:
@@ -89,8 +95,9 @@ class Ride_details:
         self.end_time = None
         self.estimated_fare = None
     
-    def set_driver_for_this_ride(self, driver):
+    def set_driver(self, driver):
         self.driver = driver
+        # **************with this set_driver******************
 
     def start_ride(self):
         self.start_time = datetime.now()
@@ -99,6 +106,9 @@ class Ride_details:
         self.end_time = datetime.now()
         self.customer.wallet -= self.estimated_fare
         self.driver.wallet += self.estimated_fare
+    
+    def __repr__(self) -> str:
+        return f'Ride details and started {self.start_location} to {self.end_location}'
 
 # car/bike khoja. ekta ride er jonno customer hisebe apps er vitor request kora
 class Ride_Request:
@@ -107,8 +117,8 @@ class Ride_Request:
         self.end_location = end_location
 
 class Ride_Matching:
-    def __init__(self) -> None:
-        self.available_drivers = []
+    def __init__(self, drivers) -> None:
+        self.available_drivers = drivers
 
     def find_driver(self, ride_request):
         # check if atleast 1 driver is available in customer's area
@@ -150,3 +160,17 @@ class Bike(Vehicle):
 
     def start_drive(self):
         self.status = 'unavailable'
+
+niye_jao = Ride_sharing_service('Niye jao')
+sakib = Customer('shakib khan', 'sakib@khan.com', 123, 'mohakhali', 1200)
+niye_jao.add_customer(sakib)
+
+
+kala_pakhi = Driver('Kala Pakhi', 'kala@pakhi.com', 321, 'gulshan 1')
+niye_jao.add_driver(kala_pakhi)
+
+print(niye_jao)
+
+sakib.request_ride(niye_jao, 'uttara')
+
+sakib.show_current_ride()
