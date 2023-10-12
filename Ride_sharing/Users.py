@@ -3,6 +3,19 @@
 from abc import ABC, abstractmethod
 from datetime import datetime
 
+class Ride_sharing_service:
+    def __init__(self, company_name) -> None:
+        self.company_name = company_name
+        self.customers = []
+        self.drivers = []
+        self.total_rides = []
+
+    def add_customer(self, customer):
+        self.customers.append(customer)
+
+    def add_driver(self, driver):
+        self.drivers.append(driver)
+
 # User class is inheriting from ABC, making it an abstract base class. This means that User is intended to be a base class for other classes, and it cannot be instantiated directly.
 # Instead, subclasses of User should be created, and those subclasses must implement the abstract methods defined in User
 
@@ -24,10 +37,10 @@ class User(ABC):
         raise NotImplementedError
     
 class Customer(User):
-    def __init__(self, user_name, user_email, user_nid, current_location) -> None:
+    def __init__(self, user_name, user_email, user_nid, current_location, initial_amount) -> None:
         # customer currently kono ride e nai
         self.customers_current_ride = None
-        self.wallet = 0
+        self.wallet = initial_amount
         self.current_location = current_location
         super().__init__(user_name, user_email, user_nid)
 
@@ -41,12 +54,12 @@ class Customer(User):
     def update_location(self, current_location):
         self.current_location = current_location
 
-    def request_ride(self, customer_location, customer_destination):
+    def request_ride(self, customer_destination):
         # customer already arekta driver er sathe onno kono ride e ache kina/ onno kothaw jacche kina check kora
         if not self.customers_current_ride:
             #TODO: set ride request properly
             ride_request = Ride_Request(self, customer_destination)
-            
+
             # TODO: set customers_current_ride via driver. (mane customer request pathanor por driver jabe naki jabena ta set kora)
             ride_matcher = Ride_Matching()
             self.customers_current_ride = ride_matcher.find_driver(ride_request)
@@ -106,3 +119,34 @@ class Ride_Matching:
             ride = Ride_details(ride_request.customer.current_location, ride_request.end_location)
             found_driver.accept_ride_request(ride)
             return ride
+        
+class Vehicle(ABC):
+    speed = {
+        'car': 100,
+        'bike': 80,
+        'cng': 50
+    }
+
+    def __init__(self, vehicle_type, licence_plate, rate) -> None:
+        self.vehicle_type = vehicle_type
+        self.licence_plate = licence_plate
+        self.rate = rate
+        self.status = 'available'
+
+    @abstractmethod
+    def start_drive(self):
+        pass
+
+class Car(Vehicle):
+    def __init__(self, vehicle_type, licence_plate, rate) -> None:
+        super().__init__(vehicle_type, licence_plate, rate)
+
+    def start_drive(self):
+        self.status = 'unavailable'
+
+class Bike(Vehicle):
+    def __init__(self, vehicle_type, licence_plate, rate) -> None:
+        super().__init__(vehicle_type, licence_plate, rate)
+
+    def start_drive(self):
+        self.status = 'unavailable'
