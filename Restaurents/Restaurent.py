@@ -1,9 +1,10 @@
 class Restaurent:
-    def __init__(self, name, menue = []) -> None:
+    def __init__(self, name, rent, menue = []) -> None:
         self.name = name
         self.chef = None
         self.waiter = None
         self.manager = None
+        self.rent = rent
         self.menu = menue
         self.revenue = 0  #saradin e total_bikri. eikhane theke expense bad jabe na. revenue amount e kokhono hat dea jabe na. meeans revenue theke minus kora jabe na
         self.expense = 0  #saradin e total expense(salary, distributor soho bivinno lok der tk dewa)
@@ -42,3 +43,13 @@ class Restaurent:
         if employee.salary < self.balance:
             employee.recieve_salary()
 
+    def show_employee(self):
+        print()
+        print('--------------Showing Employees------------')
+        print()
+        if self.chef is not None:
+            print(f'Chef : {self.chef.name} with salary {self.chef.salary}')
+        if self.manager is not None:
+            print(f'manager : {self.manager.name} with salary {self.manager.salary}')
+        if self.waiter is not None:
+            print(f'waiter : {self.waiter.name} with salary {self.waiter.salary}')

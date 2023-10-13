@@ -1,4 +1,7 @@
 from Menu import *
+from Restaurent import *
+from Users import *
+
 def main():
     # create menu object
     menu = Menu()
@@ -27,6 +30,22 @@ def main():
     # show menu items
     menu.show_menu()
 
+    # create restaurent
+    restaurent = Restaurent('su canteen', 1500, menu)
+
+    # create employees
+    manager = Manager('Sajjad booss', 122, 'kns@dev.com', 'eskaton', 2000, 'july 2020', 'core')
+    restaurent.add_employee('manager', manager)
+
+    chef = Chef('Rakib baburchi', 221, 'rakib@hasan.com', 'faridpur', 1000, 'mar 2021', 'cook', 'vat')
+    restaurent.add_employee('chef', chef)
+
+    waiter = Waiter('shufol kamla', 43221, 'shufol@nihal.com', 'dhanmondi', 500, 'april 2021', 'server')
+    restaurent.add_employee('waiter', waiter)
+
+
+    # show employees details
+    restaurent.show_employee()
 
 # call the main
 if __name__ == '__main__':
