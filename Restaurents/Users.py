@@ -8,10 +8,11 @@ class User(ABC):
         self.address = address
 
 class Customer(User):
-    def __init__(self, phone_num, email, address,  name, money) -> None:
+    def __init__(self, name, phone_num, email, address,  money) -> None:
         self.wallet = money
         # here __order is a private attribute which can not be accessed without getter
         self.__order = None
+        self.due_amount = 0
         super().__init__(name, phone_num, email, address)
 
     #This is getter 
@@ -27,7 +28,8 @@ class Customer(User):
     # setter er maddhome to ekbar order set/place korrlam. abar arekta method keno?
     def place_order(self, order):
         self.order = order
-        print(f'Person named {self.name} placed and order {self.items}')
+        self.due_amount += order.bill
+        print(f'Person named {self.name} placed and order and bill is {order.bill}')
 
     def consume_food(self, order):
         print(f'{self.name} item food {self.items}')
