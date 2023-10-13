@@ -1,10 +1,10 @@
 class Restaurent:
-    def __init__(self) -> None:
-        self.name
+    def __init__(self, name, menue = []) -> None:
+        self.name = name
         self.chef = None
         self.waiter = None
         self.manager = None
-        self.menu = []
+        self.menu = menue
         self.revenue = 0  #saradin e total_bikri. eikhane theke expense bad jabe na. revenue amount e kokhono hat dea jabe na. meeans revenue theke minus kora jabe na
         self.expense = 0  #saradin e total expense(salary, distributor soho bivinno lok der tk dewa)
         self.balance = 0  # balance = revenue - expense. revenue te jokhon tk add hobe tokhon balance ew tk add hobe. last e just expense ta minus korte hobe
