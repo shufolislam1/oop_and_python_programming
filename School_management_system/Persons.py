@@ -12,6 +12,9 @@ class Teacher(Person):
     def teach(self):
         pass
 
+    def __repr__(self) -> str:
+        return f'{self.name} : {self.subject}'
+
     def take_exam(self, subject, students):
         for student in students:
             marks = random.randint(0,100)

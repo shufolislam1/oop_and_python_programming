@@ -26,6 +26,13 @@ class School:
         for key, val in self.classrooms.items():
             print(key)
 
+        print('----------All Students----------')
+        eight = self.classrooms['eight']
+        # print(len(eight.students))
+        for student in eight.students:
+            print(student.name)
+
+
         return ''
     
 
