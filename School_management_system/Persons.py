@@ -18,12 +18,12 @@ class Teacher(Person):
             # Set marks for each student for given sub
 
 class Student(Person):
-    def __init__(self, name) -> None:
+    def __init__(self, name, classroom) -> None:
         super().__init__(name)
         self.__id = None
-        self.subject = []
         self.marks = {}
         self.grade = None
+        self.classroom = classroom
 
     @property
     def id(self):
