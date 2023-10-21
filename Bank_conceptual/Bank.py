@@ -19,7 +19,7 @@ class Account(ABC):
             print('\nInvalid amount\n')
 
     def withdraw(self, amount):
-        if amount>=0:
+        if amount>=0 and amount<=self.balance:
             self.balance -= amount
         else:
             print('\nInvalid amount\n')
@@ -53,3 +53,30 @@ class SavingsAccount(Account):
         print(f'Applied interest of {totalInterest}')
         self.deposit(totalInterest)
 
+class SpecialAccount(Account):
+    def __init__(self, name, accountNumber, password, limit) -> None:
+        super().__init__(name, accountNumber, password, type='special')
+        self.limit = limit
+
+# this is another method overloading which can do special withdraw
+    def withdraw(self, amount):
+        if amount>=0 and amount<= self.limit:
+            self.balance -= amount
+        else:
+            print('\nInvalid amount\n')
+
+    def showInfo(self):
+        print(f'\nAccount owner\' name is : {self.name}')
+        print(f'\nAccount Number : {self.accountNumber}')
+        print(f'\nAccount type : {self.type}')
+        print(f'\nAccount balance : {self.balance}')
+
+currentUser = None
+
+while(True):
+    if currentUser == None:
+        print('\nNo User Logged in !\n')
+        choice = input('\nLogin or Register? (L/R)')
+
+        if choice == 'R':
+            pass
